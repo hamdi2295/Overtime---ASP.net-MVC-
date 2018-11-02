@@ -1,0 +1,42 @@
+﻿@model CRUDModal.DataAccess.Params.DepartmentParam
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><small>Update Departments</small></h2>
+                <div class="clearfix"></div>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.Id)
+                @*<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">*@
+                <div class="form-group">
+                    <label class="control-label col-md-2">Name</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <br />
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <a class="btn btn-primary" type="button" href="@Url.Action("Index", "Departments")">Cancel</a>
+                            <button type="submit" class="btn btn-success">Update</button>
+                        </div>
+                    </div>
+                    @*</form>*@
+            }
+
+        </div>
+    </div>
+</div>
+

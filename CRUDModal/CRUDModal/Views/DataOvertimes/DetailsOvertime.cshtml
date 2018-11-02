@@ -1,0 +1,173 @@
+﻿@model IEnumerable<CRUDModal.DataAccess.Models.DataOvertime>
+@{
+    ViewBag.Title = "DetailsOvertime";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+ <!-- bootstrap-datetimepicker -->
+<link href="~/Content/assets/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+<!-- Bootstrap Colorpicker -->
+    <link href="~/Content/assets/vendors/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link href="~/Content/assets/vendors/cropper/dist/cropper.min.css" rel="stylesheet">
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    
+    <div class="x_panel">
+        <div class="x_title">
+            
+            <button type="button" class="btn btn-primary fa fa-plus" data-toggle="modal" data-target="#myModal"> Add New</button><br />
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Date Overtime</th>
+                        <th>Overtime Type</th>
+                        <th>Overtime Pay</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OvertimeTypes.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OvertimeTypes.Amount)
+                            </td>
+                            <td>
+                                <button class="btn btn-primary fa fa-pencil" href="#" onclick="GetByID(@item.Id);"> Details Overtime</button>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Modal-->
+
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Employee</h4>
+            </div>
+            <form class="form-horizontal" id="AddOvertime" method="post" enctype="multipart/form-data" onsubmit="return AjaxPost(this)">
+                <div class="modal-body">
+                    @{ var id = ViewData["id"];}
+                    
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="Employees" name="Employees" class="form-control" value="@id"/>                 
+                    <div class="form-group">                        
+                        <label class="col-md-3">Date</label>
+                        <div class="input-group date col-md-5" id="myDatepicker2">
+                            <input type='date' class="form-control" name="Date" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3">Status</label>
+                        <div class="col-md-5">
+                            <select class="form-control" id="Types" name="Types">                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3">Status</label>
+                        <div class="col-md-5">
+                            <select class="form-control" id="Status" name="Status">
+                                <option>-- Select Gender --</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Not Appprove">Not Approved</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- bootstrap-datetimepicker -->
+<script src="~/Content/asssets/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<!-- Bootstrap Colorpicker -->
+<script src="~/Content/asssets/vendors/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+<!-- jquery.inputmask -->
+<script src="~/Content/asssets/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+<!-- jQuery Knob -->
+<script src="~/Content/asssets/vendors/jquery-knob/dist/jquery.knob.min.js"></script>
+<!-- Cropper -->
+<script src="~/Content/asssets/vendors/cropper/dist/cropper.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+        //get overtime type
+        $.ajax({
+            type: "GET",
+            url: "/DataOvertimes/TypeList",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (data) {
+                var s = '<option value="-1"></option>';
+                $.each(data, function (index, row) {
+                    $("#Types").append("<option value ='" + row.Id + "'>" + row.Type + "</option>")
+                });
+            }
+        });
+        
+        //get emloyee id
+        $.ajax({
+            type: "GET",
+            url: "/DataOvertimes/DetailsOvertime" + id,
+            contentType: "application/json;charset=UTF-8",
+            success: function (data) {
+                $('#id').val(data.id);
+            }
+        });
+    });
+
+    
+    //function post
+    function AjaxPost(formData){
+        var emp = $('#Employees').val(); 
+        var ajaxConfig = {
+            type: "post",
+            url: "/DataOvertimes/Add",
+            data: new FormData(formData),
+            success: function(result) {
+                window.location.href = "/DataOvertimes/DetailsOvertime/"+emp;
+            }
+        }
+        if ($(formData).attr('enctype') == "multipart/form-data") {
+            ajaxConfig["contentType"] = false;
+            ajaxConfig["processData"] = false;
+        }
+        $.ajax(ajaxConfig);
+        return false;
+    }
+    
+ 
+</script>

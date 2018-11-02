@@ -1,0 +1,166 @@
+﻿@model IEnumerable<CRUDModal.DataAccess.Models.Department>
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+@*<script src="~/Scripts/departments.js"></script>*@
+
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add New</button><br /><br />
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                      @foreach (var item in Model)
+                      {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                <button id="idupdate" class="btn btn-warning fa fa-pencil"   href="#" onclick="GetByID(@item.Id);"></button>
+                                @*<a class="btn btn-warning fa fa-pencil" href="@Url.Action("Edit","Departments", new { id = item.Id })"></a>*@
+                                <button id="iddelete" class="btn btn-danger fa fa-trash" href="#" onclick="Delete(@item.Id);"></button>
+                                @*<button  type="button" class="btn btn-danger fa fa-trash" data-toggle="modal" data-target="#myModalDel" value="@item.Id">Del</button>*@
+                            </td>
+                        </tr>
+                      }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal Insert-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">  
+<button type="button" class="close" data-dismiss="modal">×</button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Departments</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="Id">ID</label>
+                        <input type="text" class="form-control" id="Id" placeholder="Id" disabled="disabled" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Name">Name</label>
+                        <input type="text" class="form-control" id="Name" name="Name" placeholder="Name" />
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Add</button>
+                <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
+
+<script>
+    function Add() {
+        var depObj = {
+            Id: $('#Id').val(),
+            Name: $('#Name').val()
+        };
+        $.ajax({
+            url: "/Departments/Add",
+            type: "POST",
+            data: JSON.stringify(depObj),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = "/Departments/Index";
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+    //Get by Id
+    function GetByID(id) {
+        $('#Name').css('border-color', 'lightgrey');
+        $.ajax({
+            url: "/Departments/GetByID/" + id,
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                $('#Id').val(result.Id);
+                $('#Name').val(result.Name);
+                $('#myModal').modal('show');
+                $('#btnUpdate').show();
+                $('#btnAdd').hide();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        return false;
+    }
+
+
+    //function delete
+    function Delete(id) {
+        var ans = confirm("Are you sure you want to delete this Record?" + id);
+        if (ans) {
+            $.ajax({
+                url: "/Departments/Delete/" + id,
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    window.location.href = "/Departments/Index";
+                },
+                error: function (errormessage) {
+                    alert("error");
+                }
+            });
+        }
+    }
+
+    //function update
+    function Update() {
+        var empObj = {
+            Id: $('#Id').val(),
+            Name: $('#Name').val()
+
+        };
+        $.ajax({
+            url: "/Departments/Update/",
+            data: JSON.stringify(empObj),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = "/Departments/Index";
+            },
+            error: function (errormessage) {
+                alert("error" + empObj.Id + empObj.Name);
+            }
+        });
+    }
+</script>

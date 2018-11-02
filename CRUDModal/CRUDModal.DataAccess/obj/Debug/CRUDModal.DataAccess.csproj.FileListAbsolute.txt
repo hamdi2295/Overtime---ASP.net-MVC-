@@ -1,0 +1,15 @@
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\bin\Debug\CRUDModal.DataAccess.exe.config
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\bin\Debug\CRUDModal.DataAccess.exe
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\bin\Debug\CRUDModal.DataAccess.pdb
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\bin\Debug\CRUDModal.Core.exe
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\bin\Debug\EntityFramework.dll
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\bin\Debug\CRUDModal.Core.pdb
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\bin\Debug\EntityFramework.xml
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\obj\Debug\CRUDModal.DataAccess.csprojResolveAssemblyReference.cache
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\obj\Debug\CRUDModal.DataAccess.Migrations.aaa.resources
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\obj\Debug\CRUDModal.DataAccess.Migrations.ot.resources
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\obj\Debug\CRUDModal.DataAccess.csproj.GenerateResource.Cache
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\obj\Debug\CRUDModal.DataAccess.exe
+E:\MII\Rosen\CRUDModal\CRUDModal.DataAccess\obj\Debug\CRUDModal.DataAccess.pdb

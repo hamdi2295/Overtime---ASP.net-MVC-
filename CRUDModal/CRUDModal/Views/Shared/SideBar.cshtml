@@ -1,0 +1,32 @@
+﻿<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+        <h3>General</h3>
+        <ul class="nav side-menu">
+            <li>
+                <a href="@Url.Action("UserProfile", "Login")"><i class="fa fa-home"></i> Profile <span class="fa fa-chevron"></span></a>
+                
+            </li>
+            @if (Session["Role"].ToString() == "1")
+            {
+                <li>
+                    <a href="@Url.Action("Index","Departments")"><i class="fa fa-edit"></i> Department <span class="fa fa-chevron"></span></a>
+
+                </li>
+                <li>
+                    <a href="@Url.Action("Index","Employees")"><i class="fa fa-desktop"></i> Employee <span class="fa fa-chevron"></span></a>
+
+                </li>
+
+            }
+            else if (Session["Role"].ToString() == "2")
+            {
+                <li>
+                    <a href="@Url.Action("Index","DataOvertimes")"><i class="fa fa-desktop"></i> Data Overtime <span class="fa fa-chevron"></span></a>
+
+                </li>
+
+            }
+            
+        </ul>
+    </div>
+</div>

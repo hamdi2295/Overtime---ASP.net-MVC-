@@ -1,0 +1,299 @@
+﻿@model IEnumerable<CRUDModal.DataAccess.Models.Employee>
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <button type="button" class="btn btn-primary fa fa-plus" data-toggle="modal" data-target="#myModal"> Add New</button><br />
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Employee No</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmployeeNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Departments.Name)
+                            </td>
+                            <td>
+                                <button id="idupdate" class="btn btn-warning fa fa-pencil" href="#" onclick="GetByID(@item.Id);"></button>                                
+                                <button id="iddelete" class="btn btn-danger fa fa-trash" href="#" onclick="Delete(@item.Id);"></button>                               
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal-->
+
+<div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Employee</h4>
+            </div>
+            <form class="form-horizontal" id="AddNewEmployee" method="post" enctype="multipart/form-data" onsubmit="return AjaxPost(this)">
+                <div class="modal-body">
+
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">First Name</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="First Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Last Name</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" id="LastName" name="LastName" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Age</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" id="Age" name="Age" placeholder="Age">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select class="form-control" id="Gender" name="Gender">
+                                <option>-- Select Gender --</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Foto</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <img src="~/Images" style="margin:10px" height="120" width="120" id="imagePreview" />
+                            <input type="file" name="ImageUpload" id="ImageUpload" onchange="ShowImagePreview(this,document.getElementById('imagePreview'))" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Salary</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" id="Salary" name="Salary" placeholder="Salary">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Address</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" id="Address" name="Address" placeholder="Address">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Email</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" id="Email" name="Email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Password</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input type="password" class="form-control" id="Password" name="Password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Departments</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select class="form-control" id="Departments" name="Departments">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Role</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <select class="form-control" id="Roles" name="Roles">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    //post to database
+    function AjaxPost(formData){
+        var ajaxConfig = {
+            type: "post",
+            url: "/Employees/Create",
+            data: new FormData(formData),
+            success: function (result) {
+                
+                window.location.href = "/Employees/Index"
+            }
+        }
+        if ($(formData).attr('enctype') == "multipart/form-data") {
+            ajaxConfig["contentType"] = false;
+            ajaxConfig["processData"] = false;
+        }
+        $.ajax(ajaxConfig);
+        return false;
+    }
+
+    //load
+    $(document).ready(function () {
+
+        //get departments
+        $.ajax({
+            type: "GET",
+            url: "/Employees/DepList",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (data) {
+                var s = '<option value="-1">Please Select a Department</option>';
+                $.each(data, function (index, row) {
+                    $("#Departments").append("<option value ='" + row.Id + "'>" + row.Name + "</option>")
+                });
+            }
+        });
+
+        //get role
+        $.ajax({
+            type: "GET",
+            url: "/Employees/RoleList",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (data) {
+                var s = '<option value="-1">Please Select a Role</option>';
+                $.each(data, function (index, row) {
+                    $("#Roles").append("<option value ='" + row.Id + "'>" + row.Name + "</option>")
+                });
+            }
+        });
+    });
+
+    //preview image
+    function ShowImagePreview(imageUploader, previewImage) {
+        if (imageUploader.files && imageUploader.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(previewImage).attr('src', e.target.result);
+            }
+            reader.readAsDataURL(imageUploader.files[0]);
+        }
+    }
+
+    //delete data
+    function Delete(id) {
+        var ans = confirm("Are you sure you want to delete this Record?" + id);
+        if (ans) {
+            $.ajax({
+                url: "/Employees/Delete/" + id,
+                type: "POST",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    window.location.href = "/Employees/Index";
+                },
+                error: function (errormessage) {
+                    alert("error");
+                }
+            });
+        }
+    }
+    
+    //get by id
+    function GetByID(id) {
+        
+        $('#FirstName').css('border-color', 'lightgrey');
+        $('#LastName').css('border-color', 'lightgrey');
+        $('#Age').css('border-color', 'lightgrey');
+        $('#Gender').css('border-color', 'lightgrey');
+        $('#imagePreview').css('border-color', 'lightgrey');
+        $('#Salary').css('border-color', 'lightgrey');
+        $('#Address').css('border-color', 'lightgrey');
+        $('#Email').css('border-color', 'lightgrey');
+        $('#Password').css('border-color', 'lightgrey');
+        $('#Departments').css('border-color', 'lightgrey');
+        $('#Roles').css('border-color', 'lightgrey');
+        $.ajax({
+            url: "/Employees/GetByID/" + id,
+            type: "GET",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                alert(result.Departments.Name);
+                $('#Id').val(result.Id);
+                $('#FirstName').val(result.FirstName);
+                $('#LastName').val(result.LastName);
+                $('#Age').val(result.Age);
+                $('#Gender').val(result.Gender);
+                $('#Salary').val(result.Salary);
+                $('#Address').val(result.Address);
+                $('#Email').val(result.Email);                
+                $('#Password').val(result.Password);
+                $('#Departmens').val("");
+                $('#Departments option:selected').selected(result.Departments.Name);               
+                $('#Roles').val(result.Roles);
+                $('#myModal').modal('show');
+
+
+                              
+                
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+        clearTextBox();
+        return false;
+    }
+
+    function clearTextBox() {
+        
+        
+    }
+
+</script>

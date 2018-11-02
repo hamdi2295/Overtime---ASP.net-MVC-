@@ -1,0 +1,14 @@
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\CRUDModal.Common.exe.config
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\CRUDModal.Common.exe
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\CRUDModal.Common.pdb
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\CRUDModal.Core.exe
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\CRUDModal.DataAccess.exe
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\EntityFramework.dll
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\EntityFramework.SqlServer.dll
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\CRUDModal.Core.pdb
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\CRUDModal.DataAccess.pdb
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\EntityFramework.xml
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\bin\Debug\EntityFramework.SqlServer.xml
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\obj\Debug\CRUDModal.Common.csprojResolveAssemblyReference.cache
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\obj\Debug\CRUDModal.Common.exe
+E:\MII\Rosen\CRUDModal\CRUDModal.Common\obj\Debug\CRUDModal.Common.pdb
